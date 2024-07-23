@@ -13,7 +13,6 @@
 		D125D8E92C4FE33B003E189B /* Base in Resources */ = {isa = PBXBuildFile; fileRef = D125D8E82C4FE33B003E189B /* Base */; };
 		D125D8EB2C4FE33D003E189B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D125D8EA2C4FE33D003E189B /* Assets.xcassets */; };
 		D125D8EE2C4FE33D003E189B /* Base in Resources */ = {isa = PBXBuildFile; fileRef = D125D8ED2C4FE33D003E189B /* Base */; };
-		D125D8F62C4FE71C003E189B /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D125D8F52C4FE71C003E189B /* MapViewModel.swift */; };
 		D125D8F82C4FEB9D003E189B /* MapViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D125D8F72C4FEB9D003E189B /* MapViewViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,7 +25,6 @@
 		D125D8EA2C4FE33D003E189B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D125D8ED2C4FE33D003E189B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D125D8EF2C4FE33D003E189B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D125D8F52C4FE71C003E189B /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		D125D8F72C4FEB9D003E189B /* MapViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -44,7 +42,6 @@
 		D125D8D52C4FE33B003E189B = {
 			isa = PBXGroup;
 			children = (
-				D125D8F52C4FE71C003E189B /* MapViewModel.swift */,
 				D125D8E02C4FE33B003E189B /* mapkit-integration */,
 				D125D8DF2C4FE33B003E189B /* Products */,
 			);
@@ -147,7 +144,6 @@
 				D125D8E62C4FE33B003E189B /* ViewController.swift in Sources */,
 				D125D8E22C4FE33B003E189B /* AppDelegate.swift in Sources */,
 				D125D8E42C4FE33B003E189B /* SceneDelegate.swift in Sources */,
-				D125D8F62C4FE71C003E189B /* MapViewModel.swift in Sources */,
 				D125D8F82C4FEB9D003E189B /* MapViewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
