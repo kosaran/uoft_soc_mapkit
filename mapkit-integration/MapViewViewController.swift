@@ -1,99 +1,64 @@
-//
-//  MapViewViewController.swift
-//  mapkit-integration
-//
-//  Created by Kosaran Gumarathas on 2024-07-23.
-//
-
 import UIKit
-import Foundation
 import MapKit
 
 class AnnotationPin: NSObject, MKAnnotation {
     var title: String?
     var subtitle: String?
     var coordinate: CLLocationCoordinate2D
-    
+
     init(title: String, subtitle: String, coordinate: CLLocationCoordinate2D) {
         self.title = title
         self.subtitle = subtitle
         self.coordinate = coordinate
     }
 }
-class MapViewViewController: UIViewController, MKMapViewDelegate, MapViewModelDelegate {
-    
-    let mapViewModel = MapViewModel()
 
-    
-    @IBOutlet weak var mapview: MKMapView!
-    
-    func didUpdateCurrentUserLocation(newLocation: CLLocationCoordinate2D) {
-        
-    }
-    
-    func didAddAnnotations(annotations: [any MKAnnotation]) {
-        
-    }
-    
+class MapViewViewController: UIViewController, MKMapViewDelegate, MapViewModelDelegate {
+    var mapViewModel = MapViewModel()
+
+    @IBOutlet weak var mapView: MKMapView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        let highPark = CLLocationCoordinate2D(latitude: 43.6465, longitude: -79.4637)
-        
-        let highParkPin = AnnotationPin(title: "High Park", subtitle: "Cherry Blossom", coordinate: highPark)
-        mapview.addAnnotation(highParkPin)
+        mapViewModel.delegate = self  // Set the delegate
+        mapView.delegate = self
 
-        let rom = CLLocationCoordinate2D(latitude: 43.6677, longitude: -79.3948)
-        let romPin = AnnotationPin(title: "ROM", subtitle: "Museum", coordinate: rom)
-        mapview.addAnnotation(romPin)
+        mapViewModel.setupTouristAnnotations()  // Prepare and add tourist annotations
 
-        let region = MKCoordinateRegion(center: rom, latitudinalMeters: 1000, longitudinalMeters: 1000)
-        
-        mapview.setRegion(region, animated: true)
-        
+        // Center the map on the user's location initially if available
+        if let userLocation = mapView.userLocation.location?.coordinate {
+            let region = MKCoordinateRegion(center: userLocation, latitudinalMeters: 1000, longitudinalMeters: 1000)
+            mapView.setRegion(region, animated: true)
+        } else {
+            // Fallback location (University of Toronto)
+            let uoft = CLLocationCoordinate2D(latitude: 43.664486, longitude: -79.399689)
+            let uoftPin = AnnotationPin(title: "UofT", subtitle: "The Best!", coordinate: uoft)
+            mapView.addAnnotation(uoftPin)
+            let initialRegion = MKCoordinateRegion(center: uoft, latitudinalMeters: 1000, longitudinalMeters: 1000)
+            mapView.setRegion(initialRegion, animated: true)
+        }
 
-        mapview.delegate = self
-        
     }
-    
 
-    
-    
+    func didUpdateCurrentUserLocation(newLocation: CLLocationCoordinate2D) {
+        // Optional: Center the map on the user's location
+        let region = MKCoordinateRegion(center: newLocation, latitudinalMeters: 1000, longitudinalMeters: 1000)
+        mapView.setRegion(region, animated: true)
+    }
+
+    func didAddAnnotations(annotations: [MKAnnotation]) {
+        mapView.addAnnotations(annotations)
+    }
+
     func didUpdateModelState(newState: MapViewModel.LocationModelState) {
-        
-        guard let permissionStatus = newState.status else {
-            mapview.showsUserLocation = false
-            return
-        }
-        switch permissionStatus {
-        case .notDetermined:
-            print("Please go to Settings and authorize location services.")
-            mapview.showsUserLocation = false
-        case .restricted:
-            print("Location authorized restricted likely due to parental controls.")
-            mapview.showsUserLocation = false
-        case .denied:
-            print("You have denied permissions to this Application. Please go to Settings and authorize location services.")
-            mapview.showsUserLocation = false
-        case .authorizedAlways, .authorizedWhenInUse, .authorized:
-            mapview.showsUserLocation = true
+        switch newState.status {
+        case .notDetermined, .restricted, .denied:
+            mapView.showsUserLocation = false
+            print("Access to location services is restricted or denied.")
+        case .authorizedAlways, .authorizedWhenInUse:
+            mapView.showsUserLocation = true
         default:
-            break
+            mapView.showsUserLocation = false
         }
-        self.mapview.showsUserLocation = true
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
