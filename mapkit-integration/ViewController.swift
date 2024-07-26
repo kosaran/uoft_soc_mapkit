@@ -21,7 +21,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         ("Art Gallery of Ontario", "Free on the first Wednesday night of each month", CLLocationCoordinate2D(latitude: 43.6536, longitude: -79.3925))
     ]
 
-    var hasCenteredOnUserLocation = false // Flag to track if the map has been centered on the user's location
     let defaultLocation = CLLocationCoordinate2D(latitude: 43.6635, longitude: -79.3961) // UofT
 
     override func viewDidLoad() {
@@ -62,16 +61,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return } // Get the last location
         updateLocationOnMap(to: location, with: "Current Location") // Update map with current location
-
-        // Center the map on the user's location initially if it hasn't been centered yet
-        if !hasCenteredOnUserLocation {
-            let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
-            mapView.setRegion(region, animated: true)
-            hasCenteredOnUserLocation = true // Set the flag to true after centering the map
-        }
     }
 
-    // Update the map with a given location and title
     // Update the map with a given location and title
     func updateLocationOnMap(to location: CLLocation, with title: String?) {
         // Remove any existing current location annotation
