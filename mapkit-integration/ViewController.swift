@@ -22,7 +22,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     ]
 
     var hasCenteredOnUserLocation = false // Flag to track if the map has been centered on the user's location
-    let defaultLocation = CLLocationCoordinate2D(latitude: 43.6635, longitude: -79.3961) // Example: Toronto, Canada
+    let defaultLocation = CLLocationCoordinate2D(latitude: 43.6635, longitude: -79.3961) // UofT
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,12 +72,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
 
     // Update the map with a given location and title
+    // Update the map with a given location and title
     func updateLocationOnMap(to location: CLLocation, with title: String?) {
         // Remove any existing current location annotation
-        if let currentAnnotations = mapView.annotations.filter({ $0.title == "Current Location" }) as? [MKAnnotation] {
-            mapView.removeAnnotations(currentAnnotations)
-        }
-
+        let currentAnnotations = mapView.annotations.filter { $0.title == "Current Location" }
+        mapView.removeAnnotations(currentAnnotations)
+        
         // Add a new annotation for the current location
         let point = MKPointAnnotation()
         point.title = title
