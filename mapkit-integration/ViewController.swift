@@ -22,6 +22,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     ]
 
     let defaultLocation = CLLocationCoordinate2D(latitude: 43.6635, longitude: -79.3961) // UofT
+    var hasCenteredOnUserLocation = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +31,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         mapView.delegate = self
 
         locationManager.requestWhenInUseAuthorization() // Request location authorization
-        
+
         // Add annotations for attractions
         for attraction in attractions {
             addAnnotation(at: attraction.2, with: attraction.0, subtitle: attraction.1)
@@ -61,6 +62,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return } // Get the last location
         updateLocationOnMap(to: location, with: "Current Location") // Update map with current location
+
+        // Center the map on the user's location initially if it hasn't been centered yet
+        if !hasCenteredOnUserLocation {
+            let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
+            mapView.setRegion(region, animated: true)
+            hasCenteredOnUserLocation = true // Set the flag to true after centering the map
+        }
     }
 
     // Update the map with a given location and title
